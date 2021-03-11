@@ -1,0 +1,6 @@
+TK: admin Pass: admin 
+TK: quoctuan  Pass : 123456
+TK: huuvinh Pass: 1
+TK: nhatminh Pass: 123456
+TK: hailong Pass:123456
+TK: 1 Pass: 1
