@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     hoadon.`ID_Hoadon` AS hoadon_ID_Hoadon,
+     hoadon.`ID_Nhanvien` AS hoadon_ID_Nhanvien,
+     hoadon.`ID_khachhang` AS hoadon_ID_khachhang,
+     hoadon.`ID_Giamgia` AS hoadon_ID_Giamgia,
+     hoadon.`NgayLap` AS hoadon_NgayLap,
+     hoadon.`ThanhTien` AS hoadon_ThanhTien,
+     hoadon.`TrangThai` AS hoadon_TrangThai
+FROM
+     `hoadon` hoadon]]>
+	</queryString>
+	<field name="hoadon_ID_Hoadon" class="java.lang.String"/>
+	<field name="hoadon_ID_Nhanvien" class="java.lang.String"/>
+	<field name="hoadon_ID_khachhang" class="java.lang.String"/>
+	<field name="hoadon_ID_Giamgia" class="java.lang.String"/>
+	<field name="hoadon_NgayLap" class="java.lang.String"/>
+	<field name="hoadon_ThanhTien" class="java.lang.Double"/>
+	<field name="hoadon_TrangThai" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
