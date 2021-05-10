@@ -20,25 +20,22 @@ public class ProductsDAO {
         MySQLConnect connect = new MySQLConnect("localhost", "root", "", "pizza");
     public ArrayList<ProductsDTO> docSanPham() throws Exception{
         //connect
-        String query = "SELECT * From product ";
+        String query = "SELECT * FROM `product`";
         Statement st = connect.getStatement();
         ResultSet rs = st.executeQuery(query);
         try {
-                    while (rs.next()) {
+            while (rs.next()) {
                 ProductsDTO Products = new ProductsDTO();
                 Products.setID_Product(rs.getString("ID_Product"));
                 Products.setName(rs.getString("Name"));
                 Products.setPice(rs.getDouble("Price"));
-                Products.setCategory(rs.getString("Category"));
                 Products.setAmount(rs.getInt("amount"));
+                Products.setCategory(rs.getString("Category"));
                 Products.setImg_path(rs.getString("img_path"));
-                Products.setTrangThai(rs.getInt("TrangThai"));
-            
                 Arr_products.add(Products);
-          
-        }
+            }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,"Lỗi đọc danh sách");
+            JOptionPane.showMessageDialog(null,"Lỗi đọc danh sách sản phẩm");
         }
 
         rs.close();

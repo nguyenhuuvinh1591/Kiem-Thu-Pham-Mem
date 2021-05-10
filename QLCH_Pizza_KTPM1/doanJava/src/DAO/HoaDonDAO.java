@@ -28,7 +28,7 @@ public class HoaDonDAO {
         String query = "SELECT * From hoadon ";
         Statement st = connect.getStatement();
         ResultSet rs = st.executeQuery(query);
-        shd = connect.CountRow(rs);
+        shd=connect.CountRow(rs);
         rs.first();
         try {
                 while (rs.next()) {

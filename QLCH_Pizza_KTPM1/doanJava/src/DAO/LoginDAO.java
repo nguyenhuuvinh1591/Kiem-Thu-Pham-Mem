@@ -58,7 +58,7 @@ public class LoginDAO {
             }
     }
 
-    public void addTaikhoan(String taikhoan, String matkhau, String id, int type) {
+    public void addTaikhoan(String taikhoan, String matkhau, String id, String type) {
         try {
                 MySQLConnect connect = new MySQLConnect("localhost", "root", "", "pizza");
                 LoginDTO acc = new LoginDTO();
@@ -75,7 +75,7 @@ public class LoginDAO {
         }
     }
 
-    public void deleteTaikhoan(String taikhoan) {
+    public void deleteTaikhoan(String taikhoan, String matkhau, String id, String type) {
         try {
                 MySQLConnect connect = new MySQLConnect("localhost", "root", "", "pizza");
                 LoginDTO acc = new LoginDTO();
