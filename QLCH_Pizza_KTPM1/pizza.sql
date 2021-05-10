@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 26, 2020 lúc 05:13 PM
--- Phiên bản máy phục vụ: 10.4.11-MariaDB
--- Phiên bản PHP: 7.4.4
+-- Host: 127.0.0.1
+-- Generation Time: May 10, 2021 at 04:07 AM
+-- Server version: 10.4.18-MariaDB
+-- PHP Version: 8.0.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `pizza`
+-- Database: `pizza`
 --
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chitietgiamgia`
+-- Table structure for table `chitietgiamgia`
 --
 
 CREATE TABLE `chitietgiamgia` (
@@ -36,7 +36,7 @@ CREATE TABLE `chitietgiamgia` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chitiethoadon`
+-- Table structure for table `chitiethoadon`
 --
 
 CREATE TABLE `chitiethoadon` (
@@ -49,7 +49,7 @@ CREATE TABLE `chitiethoadon` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Đang đổ dữ liệu cho bảng `chitiethoadon`
+-- Dumping data for table `chitiethoadon`
 --
 
 INSERT INTO `chitiethoadon` (`ID_Hoadon`, `ID_Product`, `ID_Khachhang`, `SoLuong`, `ThanhTien`, `Ngaylap`) VALUES
@@ -59,7 +59,7 @@ INSERT INTO `chitiethoadon` (`ID_Hoadon`, `ID_Product`, `ID_Khachhang`, `SoLuong
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chitietnhapkho`
+-- Table structure for table `chitietnhapkho`
 --
 
 CREATE TABLE `chitietnhapkho` (
@@ -72,7 +72,7 @@ CREATE TABLE `chitietnhapkho` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chuongtrinhgiamgia`
+-- Table structure for table `chuongtrinhgiamgia`
 --
 
 CREATE TABLE `chuongtrinhgiamgia` (
@@ -88,7 +88,7 @@ CREATE TABLE `chuongtrinhgiamgia` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `dangnhap`
+-- Table structure for table `dangnhap`
 --
 
 CREATE TABLE `dangnhap` (
@@ -99,7 +99,7 @@ CREATE TABLE `dangnhap` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Đang đổ dữ liệu cho bảng `dangnhap`
+-- Dumping data for table `dangnhap`
 --
 
 INSERT INTO `dangnhap` (`username`, `password`, `ID_Nhanvien`, `Type`) VALUES
@@ -108,12 +108,13 @@ INSERT INTO `dangnhap` (`username`, `password`, `ID_Nhanvien`, `Type`) VALUES
 ('huuvinh', '1', 'NV2', 0),
 ('nhatminh', '123456', 'NV3', 0),
 ('quoctuan', '123456', 'NV4', 0),
-('1', '1', 'NV5', 0);
+('1', '1', 'NV5', 0),
+('17', '2', 'NV6', 0);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `hoadon`
+-- Table structure for table `hoadon`
 --
 
 CREATE TABLE `hoadon` (
@@ -127,7 +128,7 @@ CREATE TABLE `hoadon` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Đang đổ dữ liệu cho bảng `hoadon`
+-- Dumping data for table `hoadon`
 --
 
 INSERT INTO `hoadon` (`ID_Hoadon`, `ID_Nhanvien`, `ID_khachhang`, `ID_Giamgia`, `NgayLap`, `ThanhTien`, `TrangThai`) VALUES
@@ -137,6 +138,7 @@ INSERT INTO `hoadon` (`ID_Hoadon`, `ID_Nhanvien`, `ID_khachhang`, `ID_Giamgia`, 
 ('HD12', 'NV5', 'KH1', '0%', '2020-05-24', 957000, 0),
 ('HD13', 'NV5', 'KL', '0%', '2020-05-20', 338000, 1),
 ('HD14', 'NV5', 'KL', '0%', '2020-06-24', 338000, 1),
+('HD15', 'NV5', 'KL', '0%', '2021-05-08', 338000, 1),
 ('HD2', 'NV3', 'KL', 'GG1', '2020-02-21', 1000000, 1),
 ('HD3', 'NV5', 'KL', '0%', '2020-03-01', 1490000, 0),
 ('HD4', 'NV5', 'KL', '0%', '2020-03-04', 828000, 0),
@@ -149,7 +151,7 @@ INSERT INTO `hoadon` (`ID_Hoadon`, `ID_Nhanvien`, `ID_khachhang`, `ID_Giamgia`, 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `khachhang`
+-- Table structure for table `khachhang`
 --
 
 CREATE TABLE `khachhang` (
@@ -160,7 +162,7 @@ CREATE TABLE `khachhang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Đang đổ dữ liệu cho bảng `khachhang`
+-- Dumping data for table `khachhang`
 --
 
 INSERT INTO `khachhang` (`ID_Khachhang`, `TenKhachHang`, `SDT`, `Gmail`) VALUES
@@ -172,7 +174,7 @@ INSERT INTO `khachhang` (`ID_Khachhang`, `TenKhachHang`, `SDT`, `Gmail`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `ncc`
+-- Table structure for table `ncc`
 --
 
 CREATE TABLE `ncc` (
@@ -183,7 +185,7 @@ CREATE TABLE `ncc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Đang đổ dữ liệu cho bảng `ncc`
+-- Dumping data for table `ncc`
 --
 
 INSERT INTO `ncc` (`ID_NCC`, `Ten_NCC`, `DiaChi_NCC`, `SDT_NCC`) VALUES
@@ -193,7 +195,7 @@ INSERT INTO `ncc` (`ID_NCC`, `Ten_NCC`, `DiaChi_NCC`, `SDT_NCC`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `nhanvien`
+-- Table structure for table `nhanvien`
 --
 
 CREATE TABLE `nhanvien` (
@@ -206,7 +208,7 @@ CREATE TABLE `nhanvien` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Đang đổ dữ liệu cho bảng `nhanvien`
+-- Dumping data for table `nhanvien`
 --
 
 INSERT INTO `nhanvien` (`ID_NhanVien`, `TenNhanVien`, `NgaySinh`, `GioiTinh`, `DiaChi`, `SDT`) VALUES
@@ -219,7 +221,7 @@ INSERT INTO `nhanvien` (`ID_NhanVien`, `TenNhanVien`, `NgaySinh`, `GioiTinh`, `D
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `nhapkho`
+-- Table structure for table `nhapkho`
 --
 
 CREATE TABLE `nhapkho` (
@@ -234,7 +236,7 @@ CREATE TABLE `nhapkho` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `product`
+-- Table structure for table `product`
 --
 
 CREATE TABLE `product` (
@@ -248,7 +250,7 @@ CREATE TABLE `product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Đang đổ dữ liệu cho bảng `product`
+-- Dumping data for table `product`
 --
 
 INSERT INTO `product` (`ID_Product`, `Name`, `Price`, `amount`, `Category`, `img_path`, `TrangThai`) VALUES
@@ -264,18 +266,18 @@ INSERT INTO `product` (`ID_Product`, `Name`, `Price`, `amount`, `Category`, `img
 ('PZTT4', 'Pizza Trứng', 99000, 0, 'Truyền Thống', '/Image/0', 0);
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `chitietgiamgia`
+-- Indexes for table `chitietgiamgia`
 --
 ALTER TABLE `chitietgiamgia`
   ADD PRIMARY KEY (`ID_Giamgia`),
   ADD KEY `ID_Product` (`ID_Product`);
 
 --
--- Chỉ mục cho bảng `chitiethoadon`
+-- Indexes for table `chitiethoadon`
 --
 ALTER TABLE `chitiethoadon`
   ADD PRIMARY KEY (`ID_Product`),
@@ -283,7 +285,7 @@ ALTER TABLE `chitiethoadon`
   ADD KEY `ID_Product` (`ID_Product`);
 
 --
--- Chỉ mục cho bảng `chitietnhapkho`
+-- Indexes for table `chitietnhapkho`
 --
 ALTER TABLE `chitietnhapkho`
   ADD PRIMARY KEY (`ID_NhapKho`),
@@ -292,19 +294,19 @@ ALTER TABLE `chitietnhapkho`
   ADD KEY `ID_Product` (`ID_Product`);
 
 --
--- Chỉ mục cho bảng `chuongtrinhgiamgia`
+-- Indexes for table `chuongtrinhgiamgia`
 --
 ALTER TABLE `chuongtrinhgiamgia`
   ADD PRIMARY KEY (`ID_Giamgia`);
 
 --
--- Chỉ mục cho bảng `dangnhap`
+-- Indexes for table `dangnhap`
 --
 ALTER TABLE `dangnhap`
   ADD PRIMARY KEY (`ID_Nhanvien`);
 
 --
--- Chỉ mục cho bảng `hoadon`
+-- Indexes for table `hoadon`
 --
 ALTER TABLE `hoadon`
   ADD PRIMARY KEY (`ID_Hoadon`),
@@ -313,25 +315,25 @@ ALTER TABLE `hoadon`
   ADD KEY `ID_Giamgia` (`ID_Giamgia`);
 
 --
--- Chỉ mục cho bảng `khachhang`
+-- Indexes for table `khachhang`
 --
 ALTER TABLE `khachhang`
   ADD PRIMARY KEY (`ID_Khachhang`);
 
 --
--- Chỉ mục cho bảng `ncc`
+-- Indexes for table `ncc`
 --
 ALTER TABLE `ncc`
   ADD PRIMARY KEY (`ID_NCC`);
 
 --
--- Chỉ mục cho bảng `nhanvien`
+-- Indexes for table `nhanvien`
 --
 ALTER TABLE `nhanvien`
   ADD PRIMARY KEY (`ID_NhanVien`);
 
 --
--- Chỉ mục cho bảng `nhapkho`
+-- Indexes for table `nhapkho`
 --
 ALTER TABLE `nhapkho`
   ADD PRIMARY KEY (`ID_NhapKho`),
@@ -339,49 +341,49 @@ ALTER TABLE `nhapkho`
   ADD KEY `ID_NCC` (`ID_NCC`);
 
 --
--- Chỉ mục cho bảng `product`
+-- Indexes for table `product`
 --
 ALTER TABLE `product`
   ADD PRIMARY KEY (`ID_Product`);
 
 --
--- Các ràng buộc cho các bảng đã đổ
+-- Constraints for dumped tables
 --
 
 --
--- Các ràng buộc cho bảng `chitiethoadon`
+-- Constraints for table `chitiethoadon`
 --
 ALTER TABLE `chitiethoadon`
   ADD CONSTRAINT `chitiethoadon_ibfk_1` FOREIGN KEY (`ID_Product`) REFERENCES `product` (`ID_Product`),
   ADD CONSTRAINT `hoadon` FOREIGN KEY (`ID_Hoadon`) REFERENCES `hoadon` (`ID_Hoadon`);
 
 --
--- Các ràng buộc cho bảng `chitietnhapkho`
+-- Constraints for table `chitietnhapkho`
 --
 ALTER TABLE `chitietnhapkho`
   ADD CONSTRAINT `chitietnhapkho_ibfk_1` FOREIGN KEY (`ID_Product`) REFERENCES `product` (`ID_Product`);
 
 --
--- Các ràng buộc cho bảng `chuongtrinhgiamgia`
+-- Constraints for table `chuongtrinhgiamgia`
 --
 ALTER TABLE `chuongtrinhgiamgia`
   ADD CONSTRAINT `hd-gg` FOREIGN KEY (`ID_Giamgia`) REFERENCES `hoadon` (`ID_Giamgia`);
 
 --
--- Các ràng buộc cho bảng `hoadon`
+-- Constraints for table `hoadon`
 --
 ALTER TABLE `hoadon`
   ADD CONSTRAINT `hoadon_ibfk_1` FOREIGN KEY (`ID_Nhanvien`) REFERENCES `nhanvien` (`ID_NhanVien`),
   ADD CONSTRAINT `kh-hd` FOREIGN KEY (`ID_khachhang`) REFERENCES `khachhang` (`ID_Khachhang`);
 
 --
--- Các ràng buộc cho bảng `nhanvien`
+-- Constraints for table `nhanvien`
 --
 ALTER TABLE `nhanvien`
   ADD CONSTRAINT `nhanvien_ibfk_1` FOREIGN KEY (`ID_NhanVien`) REFERENCES `dangnhap` (`ID_Nhanvien`);
 
 --
--- Các ràng buộc cho bảng `nhapkho`
+-- Constraints for table `nhapkho`
 --
 ALTER TABLE `nhapkho`
   ADD CONSTRAINT `nhapkho_ibfk_1` FOREIGN KEY (`ID_NhapKho`) REFERENCES `chitietnhapkho` (`ID_NhapKho`),

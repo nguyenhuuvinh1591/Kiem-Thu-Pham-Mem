@@ -5,13 +5,11 @@
  */
 package GUI;
 
-import BUS.AccountBUS;
 import BUS.Common;
 import BUS.HoaDonBUS;
 import DAO.HoaDonDAO;
 import static DAO.HoaDonDAO.shd;
 import DAO.MySQLConnect;
-import DTO.AccountDTO;
 import DTO.HoaDonDTO;
 import DTO.KhachHangDTO;
 import DTO.ProductsDTO;
