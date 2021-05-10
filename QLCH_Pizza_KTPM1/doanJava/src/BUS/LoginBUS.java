@@ -57,4 +57,23 @@ public class LoginBUS {
         }
         return false;
     }
+    
+    public void ThemTaiKhoan(LoginDTO nv)
+    {
+        LoginDAO data = new LoginDAO();
+        data.addTaikhoan(nv.getUsername(), nv.getPassword(), nv.getId(), nv.getType());//gọi hàm thêm bên DAO để thêm sách vào database
+        Arr_login.add(nv);//
+    }
+    public void SuaTaiKhoan(LoginDTO nv)
+    {
+        LoginDAO data=new LoginDAO();
+        data.updateTaikhoan(nv.getUsername(), nv.getPassword(), nv.getId());
+        Arr_login.add(nv);
+    }
+    public void XoaTaiKhoan(LoginDTO nv)
+    {
+        LoginDAO data=new LoginDAO();
+        data.deleteTaikhoan(nv.getUsername());
+        Arr_login.add(nv);
+    }
 }

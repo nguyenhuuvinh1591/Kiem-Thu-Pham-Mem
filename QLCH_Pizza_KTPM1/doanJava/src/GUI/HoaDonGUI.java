@@ -94,12 +94,19 @@ public class HoaDonGUI extends javax.swing.JFrame {
         jLabel8.setText("Ngày Bán:");
 
         ngayBanDATE.setDateFormatString("yyyy-MM-dd");
+        ngayBanDATE.setEnabled(false);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel9.setText("Tên Khách Hàng:");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Mã Hoá Đơn:");
+
+        maHDTXT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                maHDTXTActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel7.setText("Tên Nhân Viên:");
@@ -242,7 +249,7 @@ public class HoaDonGUI extends javax.swing.JFrame {
                                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                                 .addComponent(jLabel8)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(ngayBanDATE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(ngayBanDATE, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                                 .addComponent(jLabel9)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -360,6 +367,10 @@ public class HoaDonGUI extends javax.swing.JFrame {
 //        tenKHTXT.setText(Common.khhh.getTenKhachHang());
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void maHDTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maHDTXTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_maHDTXTActionPerformed
     
     public void dodata() throws Exception{
         String header[] = {"STT","Mã Sản Phẩm","Tên Sản Phẩm","Số Lượng","Đơn Giá"};
@@ -377,9 +388,6 @@ public class HoaDonGUI extends javax.swing.JFrame {
         }
         hoaDonTable.setModel(model);
         CreateTxt();
-
-
-
     }
     
     public void CreateTxt () throws SQLException, Exception{
@@ -399,20 +407,16 @@ public class HoaDonGUI extends javax.swing.JFrame {
         //-------------------ma HD
         MySQLConnect conn = new MySQLConnect();
         HoaDonBUS bushd = new HoaDonBUS();
-           System.out.println(shd);
-                bushd.docHoaDon();
-                int tmp=shd+1;
-                maHD = maHD +tmp; 
-//                for (HoaDonDTO hoadon : bushd.Arr_HoaDonBUS){
-//                    
-//                    if (hoadon.getID_Hoadon().equals(maHD)){
-//                        maHD = maHD + conn.CountRow()+1; 
-//                         System.out.println(conn.CountRow());       
-//                        break;
-//                      
-//                           
-//                    }
-//                }
+            bushd.docHoaDon();
+            int tmp=shd+1;
+            maHD = maHD +tmp; 
+            for (HoaDonDTO hoadon : bushd.Arr_HoaDonBUS){
+
+                if (hoadon.getID_Hoadon().equals(maHD)){
+                    maHD = maHD + HoaDonDAO.shd + 1; 
+                    break;
+                }
+            }
           
         //-------------------------------
         ngayBanDATE.setDate(date);

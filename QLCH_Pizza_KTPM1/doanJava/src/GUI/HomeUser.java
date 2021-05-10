@@ -5,19 +5,18 @@
  */
 package GUI;
 
-import BUS.AccountBUS;
 import BUS.Common;
 import BUS.HoaDonBUS;
 import BUS.KhachHangBUS;
 import BUS.LoginBUS;
 import BUS.NhanVienBUS;
 import BUS.SanPhamBUS;
-import DAO.AccountDAO;
+import DAO.LoginDAO;
 import DAO.KhachHangDAO;
 import DAO.LoginDAO;
 import DTO.ProductsDTO;
 import DAO.MySQLConnect;
-import DTO.AccountDTO;
+import DAO.NhanVienDAO;
 import DTO.HoaDonDTO;
 import DTO.KhachHangDTO;
 import DTO.LoginDTO;
@@ -62,7 +61,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
     JTextField countTXT, seachtxt,menuTextField[],menuTextFieldADMIN[],giaTriDauTXT,giaTriCuoiTXT,tongTienTXT, taikhoan_TextField, matkhau_TextField, id_TextField,type_TextField,
     idnhanvien_TextField,hoten_TextField,ngaysinh_TextField,gioitinh_TextField,diachi_TextField,sdt_TextField,gmail_TextField,hotenkh_TextField,sdtkh_TextField,idkh_TextField;
     static JButton refresh;
-    JButton menuButton[],find, suataikhoanButton,themtaikhoanButton,xoataikhoanButton,suataikhoan1Button,themtaikhoan1Button,xoataikhoan1Button,QLNVExelButton,QLTKExelButton;
+    JButton menuButton[],find, suataikhoanButton,themtaikhoanButton,xoataikhoanButton,suataikhoan1Button,themtaikhoan1Button,xoataikhoan1Button,refreshButton, QLNVExelButton,QLTKExelButton;
     JComboBox loaiSanPhamCBB;
     DefaultTableModel model = new DefaultTableModel();
     static DefaultTableModel modelGioHang = new DefaultTableModel();
@@ -77,8 +76,6 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
     ProductsDTO Products = new ProductsDTO();
     LoginDTO login = new LoginDTO();
     LoginBUS login_bus = new LoginBUS();
-    AccountDTO account = new AccountDTO();
-    AccountBUS account_bus = new AccountBUS();
     KhachHangDTO khachhang = new KhachHangDTO();
     KhachHangBUS khachhang_bus = new KhachHangBUS();
     
@@ -557,13 +554,17 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         diachi_TextField = new JTextField();
         sdt_TextField = new JTextField();
         
+        String id = "NV" + String.valueOf(NhanVienDAO.soIDNhanVien + 1);
+        idnhanvien_TextField.setText(id);
+        
         hotenLabel = new JLabel("Họ tên:");
-        ngaysinhLabel = new JLabel("Ngày sinh:");
+        ngaysinhLabel = new JLabel("Ngày sinh:"); 
         idnhanvienLabel = new JLabel("ID nhân viên:");
         gioitinhLabel = new JLabel("Giới tính:");
         diachiLabel = new JLabel("Địa chỉ:");
         sdtLabel = new JLabel("SDT:");
         
+        idnhanvien_TextField.setEditable(false);
         hotenLabel.setBounds(100, 450, 100, 40);
         ngaysinhLabel.setBounds(100, 500, 100, 40);
         idnhanvienLabel.setBounds(100, 400, 100, 40);
@@ -596,10 +597,15 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         QLNVExelButton.addActionListener(this);
         QLNVExelButton.setBackground(Color.green);
         QLNVExelButton.setBounds(750, 550, 200, 40);
+        refreshButton = new JButton("RefreshNhanVien");
+        refreshButton.setActionCommand("RefreshNhanVien");
+        refreshButton.addActionListener(this);
+        refreshButton.setBounds(750, 600, 200, 40);
         
         pnhanvien.add(suataikhoan1Button);
         pnhanvien.add(themtaikhoan1Button);
         pnhanvien.add(xoataikhoan1Button);
+        pnhanvien.add(refreshButton);
         pnhanvien.add(QLNVExelButton);
         pnhanvien.add(hoten_TextField);
         pnhanvien.add(ngaysinh_TextField);
@@ -651,23 +657,23 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         nhanvienTable.getColumnModel().getColumn(2).setPreferredWidth(100);
         nhanvienTable.getColumnModel().getColumn(3).setPreferredWidth(70);
         nhanvienTable.getColumnModel().getColumn(4).setPreferredWidth(200);
-                try {
-                    account_bus.docaccount();
-                    for (AccountDTO acc : AccountBUS.Arr_account){
-                        Vector tempp = new Vector();
-                            tempp.add(acc.getId_nhanvien());
-                            tempp.add(acc.getHoten());
-                            tempp.add(acc.getNgaysinh());
-                            tempp.add(acc.getGioitinh());
-                            tempp.add(acc.getDiachi());
-                            tempp.add(acc.getSodienthoai());
-                            dataNV = tempp;
-                            modelNhanvien.addRow(dataNV);
-                        
-                    }
-                    nhanvienTable.setModel(modelNhanvien);
-                } catch (Exception ae){
-                }
+        try {
+            NhanVienBUS bus = new NhanVienBUS();
+            bus.DocNhanVien();
+            for (NhanVienDTO nv : NhanVienBUS.Arr_Nhanvien){
+                Vector tempp = new Vector();
+                tempp.add(nv.getID_NhanVien());
+                tempp.add(nv.getTenNhanVien());
+                tempp.add(nv.getNgaySinh());
+                tempp.add(nv.getGioiTinh());
+                tempp.add(nv.getDiaChi());
+                tempp.add(nv.getSDT());
+                dataNV = tempp;
+                modelNhanvien.addRow(dataNV);
+            }
+            nhanvienTable.setModel(modelNhanvien);
+        } catch (Exception ae){
+        }
         pnhanvien.setVisible(true);
         nhanvienTable.addMouseListener(new MouseAdapter() {
             public void mouseClicked (MouseEvent e){
@@ -771,25 +777,21 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         accountTabel.getColumnModel().getColumn(0).setPreferredWidth(80); 
         accountTabel.getColumnModel().getColumn(1).setPreferredWidth(200); 
         accountTabel.getColumnModel().getColumn(2).setPreferredWidth(70);
-       
-                try {
-                    login_bus.docdangnhap();
-                    
-                    for (LoginDTO login : LoginBUS.Arr_login){
-                        Vector temp = new Vector();
-                            temp.add(login.getId());
-                            temp.add(login.getUsername());
-                            temp.add(login.getPassword());
-                            temp.add(login.getType());
-                            dataTK = temp;
-                            modelTaiKhoan.addRow(dataTK);
-                        
-                    }
-                    accountTabel.setModel(modelTaiKhoan);
-                } catch (Exception ae){
-                }
-                
-                
+        try {
+            login_bus.docdangnhap();
+
+            for (LoginDTO login : LoginBUS.Arr_login){
+                Vector temp = new Vector();
+                temp.add(login.getId());
+                temp.add(login.getUsername());
+                temp.add(login.getPassword());
+                temp.add(login.getType());
+                dataTK = temp;
+                modelTaiKhoan.addRow(dataTK);
+            }
+            accountTabel.setModel(modelTaiKhoan);
+        } catch (Exception ae){
+        }
         accountTabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked (MouseEvent e){
                 int j = nhanvienTable.getSelectedRow();
@@ -801,7 +803,6 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                 }
             }
         });        
-        
         ptaikhoan.setVisible(true);
         return ptaikhoan;
     }
@@ -1310,7 +1311,18 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         row.add(hoadon.getThanhTien());
         row.add(hoadon.getTrangThai());
         modelHoadon.addRow(row);
-    }  
+    } 
+    
+    private void Add_row_NhanVien(NhanVienDTO nv) {
+        Vector row = new Vector();
+        row.add(nv.getID_NhanVien());
+        row.add(nv.getTenNhanVien());
+        row.add(nv.getNgaySinh());
+        row.add(nv.getGioiTinh());     
+        row.add(nv.getDiaChi());
+        row.add(nv.getSDT());
+        modelNhanvien.addRow(row);
+    }
     
     private void Add_row_ThongKeHD(HoaDonDTO hoadon) {
         Vector row = new Vector();
@@ -1344,7 +1356,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
     public JPanel CreateJPanel_TaiKhoan (){
         JPanel taiKhoanPanel = new JPanel();
         JLabel iconAccount = CreateJLable_Icon(130, 120, 256, 256, "/Image/doctor.png");
-        AccountBUS bus = new AccountBUS();
+        LoginBUS bus = new LoginBUS();
         taiKhoanPanel.setLayout(null);
         taiKhoanPanel.setBackground(Color.pink);
         taiKhoanPanel.setBounds(0, 0, 1080, 660);
@@ -1376,35 +1388,31 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
             toaDoYMenuText += 70;      
         }
         
-            if (AccountBUS.Arr_account.size() == 0){
+            if (LoginBUS.Arr_login.size() == 0){
                 try {
-                    bus.docaccount();
-                    for (AccountDTO account : AccountBUS.Arr_account){
-                        if (Login.idhienhanh.equals(account.getId_nhanvien())){
-                            menuTextField[0].setText(account.hoten);
-                            menuTextField[1].setText(account.ngaysinh);
-                            menuTextField[2].setText(account.gioitinh);
-                            menuTextField[3].setText(account.sodienthoai);
-                            menuTextField[4].setText(account.diachi);
+                    bus.docdangnhap();
+                    for (LoginDTO account : LoginBUS.Arr_login){
+                        if (Login.idhienhanh.equals(account.getId())){
+                            menuTextField[0].setText(account.getUsername());
+                            menuTextField[1].setText(account.getPassword());
+                            menuTextField[2].setText(account.getId());
+                            menuTextField[3].setText(String.valueOf(account.getType()));
                             break;
                         }
-                        
                     }
                 } catch (Exception ae){
                 }
             }
             else{
                 try {
-                    for (AccountDTO account : AccountBUS.Arr_account){
-                        if (Login.idhienhanh.equals(account.getId_nhanvien())){
-                        menuTextField[0].setText(account.hoten);
-                        menuTextField[1].setText(account.ngaysinh);
-                        menuTextField[2].setText(account.gioitinh);
-                        menuTextField[3].setText(account.sodienthoai);
-                        menuTextField[4].setText(account.diachi);
+                    for (LoginDTO account : LoginBUS.Arr_login){
+                        if (Login.idhienhanh.equals(account.getId())){
+                            menuTextField[0].setText(account.getUsername());
+                            menuTextField[1].setText(account.getPassword());
+                            menuTextField[2].setText(account.getId());
+                            menuTextField[3].setText(String.valueOf(account.getType()));
                         break;
                         }
-                        
                     }
                 }catch(Exception ex){
                 }
@@ -1413,7 +1421,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         confirm_taikhoan.setBounds(600, 450, 200, 40);
         confirm_taikhoan.setFont(new Font("Arial", Font.PLAIN, 16));
         confirm_taikhoan.setBackground(Color.GREEN);
-        confirm_taikhoan.setActionCommand("confirm");
+        confirm_taikhoan.setActionCommand("update");
         confirm_taikhoan.addActionListener(this);
         JButton change_taikhoan = new JButton("Đổi mật khẩu");
         change_taikhoan.setBounds(300, 450, 150, 40);
@@ -1428,8 +1436,6 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
         taiKhoanPanel.updateUI();
         return taiKhoanPanel;
     }
-    
-    
     
     @Override
     public void keyTyped(KeyEvent e) {
@@ -1637,7 +1643,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                 System.out.println(temp);
                 modelNhanvien.setRowCount(0);
                try {
-                   nhanvien_bus.docaccount();
+                   nhanvien_bus.DocNhanVien();
                    for (NhanVienDTO acc : NhanVienBUS.findNhanvien(temp)){
                         Vector tempp = new Vector();
                             tempp.add(acc.getID_NhanVien());
@@ -1731,20 +1737,16 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
             {
                 seachtxt.setText("");
                 modelNhanvien.setRowCount(0);
-                for (AccountDTO acc : AccountBUS.Arr_account){
+                for (LoginDTO acc : LoginBUS.Arr_login){
                         Vector tempp = new Vector();
-                            tempp.add(acc.getId_nhanvien());
-                            tempp.add(acc.getHoten());
-                            tempp.add(acc.getNgaysinh());
-                            tempp.add(acc.getGioitinh());
-                            tempp.add(acc.getDiachi());
-                            tempp.add(acc.getSodienthoai());
-                            dataNV = tempp;
-                            modelNhanvien.addRow(dataNV);
-                        
+                        tempp.add(acc.getUsername());
+                        tempp.add(acc.getPassword());
+                        tempp.add(acc.getId());
+                        tempp.add(acc.getType());
+                        dataNV = tempp;
+                        modelNhanvien.addRow(dataNV);
                     }
                 nhanvienTable.setModel(modelNhanvien);     
-               
             }
             if("refreshtk".equals(e.getActionCommand()))
             {
@@ -1782,20 +1784,6 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                         }
                     }
                 }
-                    
-//                    if(loaiSanPhamCBB.getSelectedItem().toString() == temp.get(1)){
-//                        Vector tempLoai = new Vector(SanPhamBUS.timKiemTheoLoai(temp.get(1).toString()));
-//                        for (int i =0; i < tempLoai.size();i++) {
-//                            Add_row_SanPham((ProductsDTO) tempLoai.get(i));
-//                        }
-//                    }
-//                    if(loaiSanPhamCBB.getSelectedItem().toString() == temp.get(2)){
-//                        Vector tempLoai = new Vector(SanPhamBUS.timKiemTheoLoai(temp.get(2).toString()));
-//                        for (int i =0; i < tempLoai.size();i++) {
-//                            Add_row_SanPham((ProductsDTO) tempLoai.get(i));
-//                        }
-//                    }
-                    
             }
             if("xoaARRSP".equals(e.getActionCommand()))
             {
@@ -1870,36 +1858,6 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
             //-------------------------------------end SP type 0
             //---------------------------Tai khoan admin
             
-            if ("confirm".equals(e.getActionCommand())){
-                AccountDAO update = new AccountDAO();
-//                account.hoten = this.menuTextField[0].getText();
-//                account.ngaysinh = this.menuTextField[1].getText();
-//                account.gioitinh = this.menuTextField[2].getText();
-//                account.sodienthoai = this.menuTextField[3].getText();
-                String hoten = this.menuTextField[0].getText();
-                String ngaysinh = this.menuTextField[1].getText();
-                String gioitinh = this.menuTextField[2].getText();
-                String sodienthoai = this.menuTextField[3].getText();
-                String diachi = this.menuTextField[4].getText();
-                String id = Login.idhienhanh;
-                update.updateThongtin(hoten, ngaysinh, gioitinh, sodienthoai, id, diachi);
-                JOptionPane.showMessageDialog(this, "Thay đổi thông tin thành công");
-                try {
-                    account_bus.docaccount();
-                    for (AccountDTO account : AccountBUS.Arr_account){
-                        if (Login.idhienhanh.equals(account.getId_nhanvien())){
-                            menuTextField[0].setText(account.hoten);
-                            menuTextField[1].setText(account.ngaysinh);
-                            menuTextField[2].setText(account.gioitinh);
-                            menuTextField[3].setText(account.sodienthoai);
-                            menuTextField[4].setText(account.diachi);
-                            break;
-                        }
-                        
-                    }
-                } catch (Exception ae){
-                }
-            }
             if ("suataikhoan".equals(e.getActionCommand())){
                 LoginDAO update = new LoginDAO();
                 String taikhoan = this.taikhoan_TextField.getText();
@@ -1945,7 +1903,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                             JOptionPane.showMessageDialog(this,"ID hoặc tài khoản đã tồn tại");
                         else{
                         try{
-                            update.addTaikhoan(taikhoan, matkhau, id, type);
+                            update.addTaikhoan(taikhoan, matkhau, id, Integer.valueOf(type));
                             JOptionPane.showMessageDialog(this,"Thêm tài khoản thành công!");
                             taikhoan_TextField.setText(null);
                             matkhau_TextField.setText(null);
@@ -1975,7 +1933,7 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                 String matkhau = this.matkhau_TextField.getText();
                 String id = this.id_TextField.getText();
                 String type = this.type_TextField.getText();
-                update.deleteTaikhoan(taikhoan,matkhau,id,type);
+                update.deleteTaikhoan(taikhoan);
                 JOptionPane.showMessageDialog(this,"Xoá thông tin thành công!");
                 taikhoan_TextField.setText(null);
                 matkhau_TextField.setText(null);
@@ -2003,14 +1961,15 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                    
             }
             if ("suanhanvien".equals(e.getActionCommand())){
-                AccountDAO update = new AccountDAO();
+                NhanVienBUS update = new NhanVienBUS();
                 String hoten = this.hoten_TextField.getText();
                 String ngaysinh = this.ngaysinh_TextField.getText();
                 String gioitinh = this.gioitinh_TextField.getText();
                 String diachi = this.diachi_TextField.getText();
                 String sdt = this.sdt_TextField.getText();
                 String id = this.idnhanvien_TextField.getText();
-                update.updateNhanvien(hoten,ngaysinh,gioitinh,diachi,sdt,id);
+                NhanVienDTO nv = new NhanVienDTO(hoten, ngaysinh, ngaysinh, gioitinh, diachi, sdt);
+                update.SuaNhanVien(nv);
                 JOptionPane.showMessageDialog(this,"Sửa thông tin thành công!");
                 hoten_TextField.setText(null);
                 ngaysinh_TextField.setText(null);
@@ -2020,32 +1979,32 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                 sdt_TextField.setText(null);
                 modelNhanvien.setRowCount(0); 
                 try {
-                    account_bus.docaccount();
-                    for (AccountDTO acc : AccountBUS.Arr_account){
+                    update.DocNhanVien();
+                    for (NhanVienDTO nv1 : NhanVienBUS.Arr_Nhanvien){
                         Vector tempp = new Vector();
-                            tempp.add(acc.getId_nhanvien());
-                            tempp.add(acc.getHoten());
-                            tempp.add(acc.getNgaysinh());
-                            tempp.add(acc.getGioitinh());
-                            tempp.add(acc.getDiachi());
-                            tempp.add(acc.getSodienthoai());
-                            dataNV = tempp;
-                            modelNhanvien.addRow(dataNV);
-                        
+                        tempp.add(nv1.getID_NhanVien());
+                        tempp.add(nv1.getTenNhanVien());
+                        tempp.add(nv1.getNgaySinh());
+                        tempp.add(nv1.getGioiTinh());
+                        tempp.add(nv1.getDiaChi());
+                        tempp.add(nv1.getSDT());
+                        dataNV = tempp;
+                        modelNhanvien.addRow(dataNV);
                     }
                     nhanvienTable.setModel(modelNhanvien);
                 } catch (Exception ae){
                 }
             }
             if ("xoanhanvien".equals(e.getActionCommand())){
-                AccountDAO update = new AccountDAO();
+                NhanVienBUS update = new NhanVienBUS();
                 String hoten = this.hoten_TextField.getText();
                 String ngaysinh = this.ngaysinh_TextField.getText();
                 String gioitinh = this.gioitinh_TextField.getText();
                 String diachi = this.diachi_TextField.getText();
                 String sdt = this.sdt_TextField.getText();
                 String id = this.idnhanvien_TextField.getText();
-                update.deleteNhanvien(hoten,ngaysinh,gioitinh,diachi,sdt,id);
+                NhanVienDTO nv = new NhanVienDTO(hoten, ngaysinh, ngaysinh, gioitinh, diachi, sdt);
+                update.XoaNhanVien(nv);
                 JOptionPane.showMessageDialog(this,"Sửa thông tin thành công!");
                 hoten_TextField.setText(null);
                 ngaysinh_TextField.setText(null);
@@ -2055,66 +2014,67 @@ public class HomeUser extends JFrame implements MouseListener, ActionListener ,K
                 sdt_TextField.setText(null);
                 modelNhanvien.setRowCount(0); 
                 try {
-                    account_bus.docaccount();
-                    for (AccountDTO acc : AccountBUS.Arr_account){
+                    update.DocNhanVien();
+                    for (NhanVienDTO nv1 : NhanVienBUS.Arr_Nhanvien){
                         Vector tempp = new Vector();
-                            tempp.add(acc.getId_nhanvien());
-                            tempp.add(acc.getHoten());
-                            tempp.add(acc.getNgaysinh());
-                            tempp.add(acc.getGioitinh());
-                            tempp.add(acc.getDiachi());
-                            tempp.add(acc.getSodienthoai());
-                            dataNV = tempp;
-                            modelNhanvien.addRow(dataNV);
-                        
+                        tempp.add(nv1.getID_NhanVien());
+                        tempp.add(nv1.getTenNhanVien());
+                        tempp.add(nv1.getNgaySinh());
+                        tempp.add(nv1.getGioiTinh());
+                        tempp.add(nv1.getDiaChi());
+                        tempp.add(nv1.getSDT());
+                        dataNV = tempp;
+                        modelNhanvien.addRow(dataNV);
                     }
                     nhanvienTable.setModel(modelNhanvien);
                 } catch (Exception ae){
                 }
             }
             if ("themnhanvien".equals(e.getActionCommand())){
-                AccountDAO update = new AccountDAO();
+                NhanVienBUS busNhanVien = new NhanVienBUS();
                 String hoten = this.hoten_TextField.getText();
                 String ngaysinh = this.ngaysinh_TextField.getText();
                 String gioitinh = this.gioitinh_TextField.getText();
                 String diachi = this.diachi_TextField.getText();
                 String sdt = this.sdt_TextField.getText();
-                String id = this.idnhanvien_TextField.getText();
+                String id = "NV" + String.valueOf(NhanVienDAO.soIDNhanVien + 1);
+                NhanVienDTO nv = new NhanVienDTO(diachi, ngaysinh, ngaysinh, gioitinh, diachi, sdt);
                 if (id.equals("") || hoten.equals("") || sdt.equals("") || ngaysinh.equals("") || gioitinh.equals("") || diachi.equals(""))      
                         JOptionPane.showMessageDialog(this,"Vui lòng nhập đầy đủ thông tin vào ô trống");
-                    else{
-                        if (AccountBUS.checkID(idnhanvien_TextField.getText(), AccountBUS.Arr_account))
-                            JOptionPane.showMessageDialog(this,"ID nhân viên đã tồn tại");
-                        else{
-                        try{
-                            update.addNhanvien(hoten, ngaysinh, gioitinh, diachi, sdt, id);
-                            JOptionPane.showMessageDialog(this,"Thêm nhân viên thành công!");
-                            hoten_TextField.setText(null);
-                            ngaysinh_TextField.setText(null);
-                            gioitinh_TextField.setText(null);
-                            diachi_TextField.setText(null);
-                            sdt_TextField.setText(null);
-                            idnhanvien_TextField.setText(null);
-                            modelNhanvien.setRowCount(0);
-                            account_bus.docaccount();
-                            for (AccountDTO account : AccountBUS.Arr_account){
-                                Vector temp = new Vector();
-                                temp.add(account.getId_nhanvien());
-                                temp.add(account.getHoten());
-                                temp.add(account.getNgaysinh());
-                                temp.add(account.getGioitinh());
-                                temp.add(account.getSodienthoai());
-                                temp.add(account.getDiachi());
-                                dataNV = temp;
-                                modelNhanvien.addRow(dataNV);
-                            }
-                        nhanvienTable.setModel(modelNhanvien);
-                        } catch (Exception ae){
+                else{
+                    try{
+                        busNhanVien.ThemNhanVien(nv);
+                        JOptionPane.showMessageDialog(this,"Thêm nhân viên thành công!");
+                        hoten_TextField.setText(null);
+                        ngaysinh_TextField.setText(null);
+                        gioitinh_TextField.setText(null);
+                        diachi_TextField.setText(null);
+                        sdt_TextField.setText(null);
+                        idnhanvien_TextField.setText(null);
+                        modelNhanvien.setRowCount(0);
+                        busNhanVien.DocNhanVien();
+                        for (NhanVienDTO nv1 : NhanVienBUS.Arr_Nhanvien){
+                            Vector tempp = new Vector();
+                            tempp.add(nv1.getID_NhanVien());
+                            tempp.add(nv1.getTenNhanVien());
+                            tempp.add(nv1.getNgaySinh());
+                            tempp.add(nv1.getGioiTinh());
+                            tempp.add(nv1.getDiaChi());
+                            tempp.add(nv1.getSDT());
+                            dataNV = tempp;
+                            modelNhanvien.addRow(dataNV);
                         }
-                        }
-                    } 
+                    nhanvienTable.setModel(modelNhanvien);
+                    } catch (Exception ae){
+                    }
+                } 
             }
-            
+            if ("RefreshNhanVien".equals(e.getActionCommand())){
+                modelNhanvien.setRowCount(0);
+                for (int i =0; i < NhanVienBUS.Arr_Nhanvien.size();i++) {
+                    Add_row_NhanVien(NhanVienBUS.Arr_Nhanvien.get(i));
+                } 
+            }
             if ("suakhachhang".equals(e.getActionCommand())){
                 KhachHangDAO update = new KhachHangDAO();
                 String id = this.idkh_TextField.getText();

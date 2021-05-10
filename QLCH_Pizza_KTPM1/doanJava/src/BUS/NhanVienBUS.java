@@ -5,11 +5,9 @@
  */
 package BUS;
 
-import static BUS.SanPhamBUS.Arr_products;
 import DAO.NhanVienDAO;
-import DTO.AccountDTO;
 import DTO.NhanVienDTO;
-import DTO.ProductsDTO;
+import DTO.NhanVienDTO;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +17,7 @@ import java.util.ArrayList;
 public class NhanVienBUS {
     public  static  ArrayList<NhanVienDTO> Arr_Nhanvien = new ArrayList();
     
-    public  void docaccount() throws Exception
+    public  void DocNhanVien() throws Exception
     {
         NhanVienDAO data = new NhanVienDAO();
         if(Arr_Nhanvien == null)
@@ -39,5 +37,24 @@ public class NhanVienBUS {
                     Arr_temp.add(Arr_Nhanvien.get(i));           
             }
         return Arr_temp;
+    }
+    
+    public void ThemNhanVien(NhanVienDTO nv)
+    {
+        NhanVienDAO data = new NhanVienDAO();
+        data.them(nv);//gọi hàm thêm bên DAO để thêm sách vào database
+        Arr_Nhanvien.add(nv);//
+    }
+    public void SuaNhanVien(NhanVienDTO nv)
+    {
+        NhanVienDAO data=new NhanVienDAO();
+        data.sua(nv);
+        Arr_Nhanvien.add(nv);
+    }
+    public void XoaNhanVien(NhanVienDTO nv)
+    {
+        NhanVienDAO data=new NhanVienDAO();
+        data.xoa(nv);
+        Arr_Nhanvien.add(nv);
     }
 }

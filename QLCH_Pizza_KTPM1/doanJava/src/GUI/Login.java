@@ -7,7 +7,7 @@ package GUI;
 
 import GUI.*;
 import BUS.LoginBUS;
-import DAO.Connect;
+import DAO.MySQLConnect;
 import DTO.LoginDTO;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
